@@ -38,4 +38,4 @@ jobs:
 
     # Pushes the images to the registry
     - name: Push the images to the registry
-      run: push_images.sh
+      run: ./push_images.sh
