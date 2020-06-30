@@ -8,11 +8,17 @@ from utils import term_colors
 DOCKERHUB_REPO_BASE = "arterys/inference-sdk-base"
 CUDA_VERSIONS = ["9.2", "10.0", "10.1", "10.2"]
 
+def strip_prefix(text, prefix):
+    if text.startswith(prefix):
+        return text[len(prefix):]
+    return text
+
 def build_images():
     # Build CPU image
     release_tag = os.getenv('GITHUB_REF', '')
     if release_tag == '':
         raise RuntimeError('Tag not specified')
+    release_tag = strip_prefix(release_tag, 'refs/tags/v')
 
     cmd = f'docker build -f Dockerfile.cpu -t {DOCKERHUB_REPO_BASE}:{release_tag}-cpu .'
     print(term_colors.OKBLUE + "Running: ", cmd, term_colors.ENDC)
