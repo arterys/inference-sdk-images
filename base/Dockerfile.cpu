@@ -1,0 +1,18 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt install -y software-properties-common  \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt update \
+    && apt-get install -y python3.8 python3-pip python3-gdcm \
+    && apt remove -y software-properties-common && apt autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy a few files for GDCM to work
+RUN cp /usr/lib/python3/dist-packages/gdcm.py /usr/local/lib/python3.8/dist-packages/ \
+    && cp /usr/lib/python3/dist-packages/gdcmswig.py /usr/local/lib/python3.8/dist-packages/ \
+    && cp /usr/lib/python3/dist-packages/_gdcmswig*.so /usr/local/lib/python3.8/dist-packages/ \
+    && cp /usr/lib/x86_64-linux-gnu/libgdcm* /usr/local/lib/python3.8/dist-packages/
+
+# Install requirements and module code
+COPY requirements.txt /opt/requirements.txt
+RUN python3 -m pip install -r /opt/requirements.txt

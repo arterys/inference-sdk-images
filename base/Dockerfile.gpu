@@ -1,0 +1,13 @@
+ARG CUDA_VERSION
+FROM nvidia/cuda:${CUDA_VERSION}-cudnn7-devel-ubuntu18.04
+
+RUN apt-get update && apt-get install -y wget cmake git && rm -rf /var/lib/apt/lists/*
+RUN wget -O ~/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh  &&  chmod +x ~/miniconda.sh && \
+    ~/miniconda.sh -b -p /opt/conda && rm ~/miniconda.sh && \
+    /opt/conda/bin/conda install -y python=3.7 conda-build && \
+    /opt/conda/bin/conda clean -ya
+
+ENV PATH=/opt/conda/bin:$PATH
+COPY requirements.txt /opt/requirements.txt
+
+RUN pip install --no-cache-dir -r /opt/requirements.txt
