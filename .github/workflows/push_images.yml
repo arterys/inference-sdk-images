@@ -27,7 +27,7 @@ jobs:
 
     # Runs a set of commands using the runners shell
     - name: Build the images
-      run: python3 build_images.py
+      run: python3 scripts/build_images.py
     
     # Logs in to DockerHub
     - name: Docker Login
@@ -38,4 +38,4 @@ jobs:
 
     # Pushes the images to the registry
     - name: Push the images to the registry
-      run: ./push_images.sh
+      run: ./scripts/push_images.sh

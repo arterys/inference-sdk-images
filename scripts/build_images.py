@@ -5,6 +5,7 @@ import subprocess as subp
 
 from utils import term_colors
 
+DOCKERHUB_REPO_BASE = "arterys/inference-sdk-base"
 CUDA_VERSIONS = ["9.2", "10.0", "10.1", "10.2"]
 
 def build_images():
@@ -13,14 +14,14 @@ def build_images():
     if release_tag == '':
         raise RuntimeError('Tag not specified')
 
-    cmd = f'docker build -f Dockerfile.cpu -t arterys/inference-sdk-base:{release_tag}-cpu .'
+    cmd = f'docker build -f Dockerfile.cpu -t {DOCKERHUB_REPO_BASE}:{release_tag}-cpu .'
     print(term_colors.OKBLUE + "Running: ", cmd, term_colors.ENDC)
     result = run_cmd(cmd, 'base')
     check_output(result)
 
     # Build GPU images
     for version in CUDA_VERSIONS:
-        cmd = f'docker build -f Dockerfile.gpu --build-arg CUDA_VERSION={version} -t arterys/inference-sdk-base:{release_tag}-cuda-{version} .'
+        cmd = f'docker build -f Dockerfile.gpu --build-arg CUDA_VERSION={version} -t {DOCKERHUB_REPO_BASE}:{release_tag}-cuda-{version} .'
         print(term_colors.OKBLUE + "Running: ", cmd, term_colors.ENDC)
         result = run_cmd(cmd, 'base')
         check_output(result)
