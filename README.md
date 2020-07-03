@@ -1,5 +1,5 @@
 # inference-sdk-images
-Arterys Inference SDK Docker Images for integrating ML models with the Arterys platform
+Arterys Inference SDK Docker Images for integrating ML models with the Arterys platform. These images are automatically published to Docker Hub at https://hub.docker.com/r/arterys/inference-sdk-base.
 
 
 ## Docker Images
